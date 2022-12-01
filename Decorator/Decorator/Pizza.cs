@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Decorator
 {
-    public abstract class Pizza
+    public abstract class IPizza
     {
         public abstract string doPizza();
 
@@ -16,7 +16,7 @@ namespace Decorator
         }
     }
 
-    public class TomatoPizza : Pizza
+    public class TomatoPizza : IPizza
     {
         public override string doPizza()
         {
@@ -24,7 +24,7 @@ namespace Decorator
         }
     }
 
-    public class ChickenPizza : Pizza
+    public class ChickenPizza : IPizza
     {
         public override string doPizza()
         {
@@ -32,10 +32,10 @@ namespace Decorator
         }
     }
 
-    public abstract class PizzaDecorator : Pizza
+    public abstract class PizzaDecorator : IPizza
     {
-        protected Pizza pizza;
-        public PizzaDecorator(Pizza pizza)
+        protected IPizza pizza;
+        public PizzaDecorator(IPizza pizza)
         {
             this.pizza = pizza;
         }
@@ -43,7 +43,7 @@ namespace Decorator
 
     public class CheeseDecorator : PizzaDecorator
     {
-        public CheeseDecorator(Pizza pizza) 
+        public CheeseDecorator(IPizza pizza) 
             : base(pizza) { }
 
         public override string doPizza()
@@ -59,7 +59,7 @@ namespace Decorator
 
     public class PepperDecorator : PizzaDecorator
     {
-        public PepperDecorator(Pizza pizza)
+        public PepperDecorator(IPizza pizza)
             :base(pizza) { }
 
         public override string doPizza()
