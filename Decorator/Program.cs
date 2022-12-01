@@ -60,15 +60,15 @@ namespace Decorator
     /// <summary>ConcreteDecorator クラス</summary>
     public class BorderStringDisplay : StringDecorator
     {
-        char boder;
+        char border;
         public BorderStringDisplay(Display display, char c) : base (display)
         {
-            this.boder = c;
+            this.border = c;
         }
 
         public override string GetText()
         {
-            return boder + Display.GetText() + boder;
+            return border + Display.GetText() + border;
         }
     }
 
@@ -83,8 +83,8 @@ namespace Decorator
             var repeat = new RepeatStringDisplay(txt, 2);
             repeat.Show();
             //txt -> repeat -> border
-            var boder = new BorderStringDisplay(repeat, '|');
-            boder.Show();
+            var border = new BorderStringDisplay(repeat, '|');
+            border.Show();
             //txt -> border -> repeat -> border
             var a = new BorderStringDisplay(
                          new RepeatStringDisplay(
