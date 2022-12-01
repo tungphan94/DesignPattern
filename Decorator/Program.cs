@@ -4,91 +4,97 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Decorator
 {
-    public abstract class IPizza
+    /// <summary>Component クラス</summary>
+    public abstract  class Display
     {
-        public abstract string doPizza();
-        public void show()
+        public abstract string GetText();
+        public void Show()
         {
-            Console.WriteLine(doPizza());
+            Console.WriteLine(GetText());
         }
     }
 
-    public class TomatoPizza : IPizza
+    /// <summary>ConcreteComponent クラス</summary>
+    public class StringDisplay : Display
     {
-        public override string doPizza()
+        string Text;
+        public StringDisplay(string txt)
         {
-            return "Tomato Pizza";
+            this.Text = txt;
+        }
+        public override string GetText()
+        {
+            return Text;
         }
     }
 
-    public class ChickenPizza : IPizza
+    /// <summary>Decorator クラス</summary>
+    public abstract class StringDecorator : Display
     {
-        public override string doPizza()
+        protected Display Display;
+        public StringDecorator(Display display)
         {
-            return "Chicken Pizza";
+            this.Display = display;
         }
     }
 
-    public abstract class PizzaDecorator : IPizza
+    /// <summary>ConcreteDecorator クラス</summary>
+    public class RepeatStringDisplay : StringDecorator
     {
-        protected IPizza pizza;
-        public PizzaDecorator(IPizza pizza)
+        int repreatNum;
+        public RepeatStringDisplay(Display display, int num) : base(display)
         {
-            this.pizza = pizza;
+            repreatNum = num;
+        }
+        public override string GetText()
+        {
+            string txt = "";
+            for (int i = 0; i < repreatNum; i++)
+            {
+                txt += Display.GetText();
+            }
+            return txt;
         }
     }
 
-    public class CheeseDecorator : PizzaDecorator
+    /// <summary>ConcreteDecorator クラス</summary>
+    public class BorderStringDisplay : StringDecorator
     {
-        public CheeseDecorator(IPizza pizza)
-            : base(pizza) { }
-
-        public override string doPizza()
+        char boder;
+        public BorderStringDisplay(Display display, char c) : base (display)
         {
-            return pizza.doPizza() + addCheese();
+            this.boder = c;
         }
 
-        private string addCheese()
+        public override string GetText()
         {
-            return " + Cheese";
-        }
-    }
-
-    public class PepperDecorator : PizzaDecorator
-    {
-        public PepperDecorator(IPizza pizza)
-            : base(pizza) { }
-
-        public override string doPizza()
-        {
-            return pizza.doPizza() + addPepper();
-        }
-
-        private string addPepper()
-        {
-            return " + Pepper";
+            return boder + Display.GetText() + boder;
         }
     }
 
     class Program
     {
-        static void showPizza()
-        {
-            var tomatoPizza = new TomatoPizza();
-            var chickenPizza = new ChickenPizza();
-            tomatoPizza.show();
-            chickenPizza.show();
-            var cheeseTomatoPizza = new CheeseDecorator(tomatoPizza);
-            var peppertomatoPizza = new PepperDecorator(tomatoPizza);
-            cheeseTomatoPizza.show();
-            peppertomatoPizza.show();
-            var cheeseTwo = new CheeseDecorator(new PepperDecorator(new CheeseDecorator(tomatoPizza)));
-            cheeseTwo.show();
-        }
-
         static void Main(string[] args)
         {
-            showPizza();
+            //txt
+            var txt = new StringDisplay("ABC");
+            txt.Show();
+            //txt-> repeat
+            var repeat = new RepeatStringDisplay(txt, 2);
+            repeat.Show();
+            //txt -> repeat -> border
+            var boder = new BorderStringDisplay(repeat, '|');
+            boder.Show();
+            //txt -> border -> repeat -> border
+            var a = new BorderStringDisplay(
+                         new RepeatStringDisplay(
+                             new BorderStringDisplay(
+                                 new StringDisplay("ABC"), 
+                             '='), 
+                         3), 
+                    '|');
+
+            a.Show();
         }
     }
 }

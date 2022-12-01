@@ -32,31 +32,25 @@ ConcreteDecoratorB : method2()
 「Decorator」パターンを適用したクラスを利用し処理します。
 
 ## Decorator パターンの仕組み
-Decorator パターンの説明のため、例のテーマは「Pizza」にします。
+Decorator パターンの説明のため、例のテーマは「Display」にします。
 
 ```mermaid
 classDiagram
-interface_IPizza  <|-- TomatoPizza
-interface_IPizza  <|-- ChickkenPizza
-interface_IPizza  <|-- PizzaDecorator
-interface_IPizza : +doPizza()　string
-TomatoPizza : +doPizza()　string
-ChickkenPizza : +doPizza()　string
-PizzaDecorator: +doPizza()　string
-PizzaDecorator: mPizza -- IPizza
-PizzaDecorator: +PizzaDecorator(IPizza pizza)　
-PizzaDecorator <|-- PepperDecorator
-PizzaDecorator <|-- CheeseDecorator
-PepperDecorator: +doPizza()　string
-PepperDecorator: 
-PepperDecorator: +addPepper() string
-CheeseDecorator: +doPizza()　string
-CheeseDecorator: 
-CheeseDecorator: +addCheese() string
+interface_Display  <|-- StringDisplay
+interface_Display  <|-- StringDecorator
+interface_Display : + GetText()　string
+StringDisplay : + GetText()　string
+StringDecorator: + GetText()　string
+StringDecorator: mDisplay -- display
+StringDecorator: + StringDecorator(Display display)　
+StringDecorator <|-- RepeatStringDisplay
+StringDecorator <|-- BorderStringDisplay
+RepeatStringDisplay: +GetText()　string
+BorderStringDisplay: +GetText()　string
 ```
 
-1. IPizza インターフェイスは、Decorator デザイン パターンのコンポーネントです。
-2. TomatoPizza と ChickenPizza は IPizza の実装です (ConcreteComponent )。これらは、基本となる機能を実装します。
-3. PizzaDecorator は、上記の設計図の中心です。TomatoPizza や ChickenPizza のピザの既存のインスタンスを保持します。このプロパティは ctor メソッドによって設定され、プログラムの実行中に展開されます。
-4. PepperDecorator と CheeseDecorator は拡張メソッドを実装します。この例では、PepperDecorator は既存のピザにコショウを追加します。拡張機能は addPepper() メソッドに実装されています。
+1. Display インターフェイスは、Decorator デザイン パターンのコンポーネントです。
+2. StringDisplay  は Display の実装です (ConcreteComponent )。これらは、基本となる機能を実装します。
+3. StringDecorator は、上記の設計図の中心です。StringDisplayの既存のインスタンスを保持します。このプロパティは ctor メソッドによって設定され、プログラムの実行中に展開されます。
+4. RepeatStringDisplay と BorderStringDisplay は拡張メソッドを実装します。
 
