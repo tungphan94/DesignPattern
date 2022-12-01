@@ -1,7 +1,7 @@
 # Decorator パターン
 Decorator （デコレーター、 装飾器） は、 構造に関するデザインパターンの一つで、 ある振る舞いを含む特別なラッパー・オブジェクトの中にオブジェクトを配置することで、 それらのオブジェクトに新しい振る舞いを付け加えます。
 
-## Decorator の　役割り
+## Decoratorパターンのクラス図
 ```mermaid
 classDiagram
 Component  <|-- ConcreteComponent
@@ -18,7 +18,7 @@ ConcreteDecoratorA : method2()
 ConcreteDecoratorB : method1()
 ConcreteDecoratorB : method2()
 ```
-
+### Decorator の　役割り
 1. Component(部品)
 機能追加の核となるクラスです。機能拡張するメソッドのインタフェースを定義します。
 2. ConcreteComponent(具体的な部品)
