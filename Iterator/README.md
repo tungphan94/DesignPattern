@@ -57,6 +57,7 @@ class Aggregate {
 }
 
 class EmployeeList {
+ +Employee[] Employees;
 	EmployeeList() 
 	Add(Employee employee)
 	GetLength() : int
@@ -71,7 +72,8 @@ class Iterator {
 }
 
 class EmployeeListIterator {
-  +aggreate
+  + EmployeeList Employees
+  + int index
 	+hasNext()
 	+next()
 	EmployeeListIterator(EmployeeList employees)
