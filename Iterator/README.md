@@ -47,6 +47,43 @@ ConcreteIterator o-- ConcreteAggregate
  - [Iterator] パターンを適用したクラスを利用し処理する.
 ## 具体例
 具体例として、「従業員をまとめる従業員リスト」と「従業員リストのIterator」をもとに説明します。
+
+```mermaid
+
+classDiagram
+class Aggregate {
+	<<interface>>
+	Iterator iterator()
+}
+
+class EmployeeList {
+	EmployeeList() 
+	Add(Employee employee)
+	GetLength() : int
+	GetAt(int index) : Employee
+	iterator() : Iterator
+}
+
+class Iterator {
+	<<interface>>
+	+hasNext()
+	+next()
+}
+
+class EmployeeListIterator {
+  +aggreate
+	+hasNext()
+	+next()
+	EmployeeListIterator(EmployeeList employees)
+}
+        
+Aggregate <|-- EmployeeList
+Aggregate --> Iterator : create
+Iterator <|--  EmployeeListIterator
+EmployeeListIterator --> EmployeeList
+EmployeeListIterator o-- EmployeeList
+
+```
 ### 実装クラス
 #### Employeeクラス
 Employee(従業員)クラスは集合体の要素を表します。
