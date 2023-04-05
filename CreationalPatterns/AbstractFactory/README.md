@@ -1,7 +1,7 @@
 # AbstractFactory パターン
 Abstract Factory パターン は互いに関連する一連のオブジェクト群を, その具象クラスに依存しないで生成するためのインタフェースを提供する
 
-## Factoryパターンのクラス図
+## AbstractFactoryパターンのクラス図
 ```mermaid
 classDiagram
 class ConcreteFactory1
