@@ -42,13 +42,13 @@ AbstracFactory <|-- Client
 ```
 
 ## 役割
-1. AbstractProduct[1,2,3] (抽象的な製品):
+1. AbstractProduct[1,2] (抽象的な製品):
 [AbstractFactory] (抽象的な工場) によって生成される抽象的なオブジェクト (部品, 製品) のインタフェースを定義する.
-2. ConcreteProduct[A1,A2,A3], ConcreteProduct[B1,B2,B3] (具体的製品):
-AbstractProduct[1,2,3] のインタフェースを実装する.
+2. ConcreteProduct[A1,A2], ConcreteProduct[B1,B2] (具体的製品):
+AbstractProduct[1,2] のインタフェースを実装する.
 3. AbstractFactory (抽象的な工場):
-AbstractProduct[1,2,3] を生成するためのインタフェースを定義する. Factory オブジェクト ConcreteFactory[A,B] (具体的な工場) を生成するためのクラスメソッドを定義する.
+AbstractProduct[1,2] を生成するためのインタフェースを定義する. Factory オブジェクト ConcreteFactory[A,B] (具体的な工場) を生成するためのクラスメソッドを定義する.
 4. ConcreteFactory[A,B] (具体的な工場):
 [AbstractFactory] のインタフェースを実装する.
 5. Client(利用者):
-AbstractProduct[1,2,3], [AbstractFactory] が提供するインタフェースのみを使用して処理を行う.
+AbstractProduct[1,2], [AbstractFactory] が提供するインタフェースのみを使用して処理を行う.
