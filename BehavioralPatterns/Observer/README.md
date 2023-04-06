@@ -11,7 +11,7 @@ class Publisher {
           +mainBusinessLogic()
           }
 class Subscriber {
-          <<interface>> Subscriber
+          <<interface>>
           +Update(context)
           }
           
@@ -19,12 +19,12 @@ class ConcreteSubscriber {
           ...
           +Update(context)
           }
-
-
 Subscriber  <|-- Publisher
 Subscriber  <|-- ConcreteSubscriber
-
+Client --> ConcreteSubscriber
 ```
+
+
 ### Decorator の　役割り
  1. パブリッシャー （Publisher）
  - 他のオブジェクトが関心を持つイベントを発行します。 パブリッシャーがその状態を変えた時や何らかの行為を行なった時に、 このようなイベントが発生します。 パブリッシャーには、 サブスクリプションの仕組みがあり、 新規サブスクライバーの参加や現サブスクラーバーの参加を取り消すことができます。
