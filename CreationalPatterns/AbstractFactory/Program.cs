@@ -5,82 +5,92 @@ using System.Linq;
 
 namespace Factory
 {
-    /// <summary>ProductTable クラス</summary>
-    public abstract class ComputerProduct
+    public abstract class PhoneNumber
     {
-        public abstract string operatingSystem();
+        private string phoneNumber;
+        public abstract string getCountryCode();
+        public string getPhoneNumber() => phoneNumber;
+        public void setPhoneNumber(string phoneNumber) { this.phoneNumber = phoneNumber; } 
     }
 
-    public class SamsungComputer : ComputerProduct
+    public class VietNamesePhoneNumber : PhoneNumber
     {
-        public override string operatingSystem() => "Computer: Windows";
+        public override string getCountryCode() => "+84";
     }
 
-    public class MacbookComputer : ComputerProduct
+    public class NihonPhoneNumber : PhoneNumber
     {
-        public override string operatingSystem() => "Computer: Mac OS";
+        public override string getCountryCode() => "+81";
     }
 
-    public abstract class PhoneProduct
+    public abstract class Address
     {
-        protected string beta;
-        public PhoneProduct(string beta) { this.beta = beta; }
-        public abstract string operatingSystem();
+        protected string city;
+        protected string street;
+        protected string postalCode;
+
+        public void setCity(string city) { this.city = city; }
+        public void setStreet(string street) { this.street = street; }
+        public void setPostalCode(string postalCode) { this.postalCode = postalCode; }
+        public abstract string getFullAddress();
+        public abstract string getCountry();
     }
 
-    public class Galaxy : PhoneProduct
+    public class VietNameAdress : Address
     {
-        public Galaxy(string beta) : base(beta) { }
-        public override string operatingSystem() => $"Phone: Android {beta}";
+        public override string getCountry() => "Viet Nam";
 
+        public override string getFullAddress() => $"{postalCode}\n{street} ,{city} city";
     }
 
-    public class Iphone : PhoneProduct
+    public class NihonAdress : Address
     {
-        public Iphone(string beta) : base(beta) { }
-        public override string operatingSystem() =>$"Phone: IOS {beta}";
+        public override string getCountry() => "日本";
+        public override string getFullAddress() => $"{postalCode}\n{city} city ,{street}";
     }
 
-
-    public abstract class AbstractFactory
+    public abstract class Factory
     {
-        public abstract ComputerProduct createComputer();
-        public abstract PhoneProduct createPhone(string beta);
+        public abstract Address CreateAddress();
+        public abstract PhoneNumber CreatePhoneNumber();
     }
 
-    public class SamsungFactory : AbstractFactory
+    public class VietNameseFactory : Factory
     {
-        public override ComputerProduct createComputer()
+        public override Address CreateAddress()
         {
-            return new SamsungComputer();
+            return new VietNameAdress();
         }
-
-        public override PhoneProduct createPhone(string beta)
+        public override PhoneNumber CreatePhoneNumber()
         {
-            return new Galaxy(beta);    
-        }
-    }
-
-    public class AppleFactory : AbstractFactory
-    {
-        public override ComputerProduct createComputer()
-        {
-            return new MacbookComputer();
-        }
-
-        public override PhoneProduct createPhone(string beta)
-        {
-            return new Iphone(beta);
+            return new VietNamesePhoneNumber();
         }
     }
+
+    public class NihonFactory : Factory
+    {
+        public override Address CreateAddress()
+        {
+            return new NihonAdress();
+        }
+        public override PhoneNumber CreatePhoneNumber()
+        {
+            return new NihonPhoneNumber();
+        }
+    }
+
 
     public static class Util
     {
         //Clientコード例
-        public static void Print(ComputerProduct comp, PhoneProduct phone)
+        public static void Print(Address address, PhoneNumber phone)
         {
-            Console.WriteLine(comp.operatingSystem());
-            Console.WriteLine(phone.operatingSystem());
+            var title = $"Create {address.getCountry()} Address and Phone Number";
+            Console.WriteLine(title);
+            Console.WriteLine($"{address.getCountry()}. Address:");
+            Console.WriteLine(address.getFullAddress());
+            Console.WriteLine($"{address.getCountry()}. Phone Number:");
+            Console.WriteLine($"{phone.getCountryCode()} {phone.getPhoneNumber()}");
         }
     }
 
@@ -88,14 +98,24 @@ namespace Factory
     {
         static void Main(string[] args)
         {
-            var samsungFactory  = new SamsungFactory();
-            var comp = samsungFactory.createComputer();
-            var phone = samsungFactory.createPhone("15");
-            Util.Print(comp, phone);
-            var AppleFactory = new AppleFactory();
-            comp = AppleFactory.createComputer();
-            phone = AppleFactory.createPhone("17");
-            Util.Print(comp, phone);
+            var vnfactory = new VietNameseFactory();
+            var address = vnfactory.CreateAddress();
+            var phoneNumber = vnfactory.CreatePhoneNumber();
+            phoneNumber.setPhoneNumber("0918-252-0906");
+            address.setCity("Ho Chi Minh");
+            address.setStreet("273/Phan Anh street");
+            address.setPostalCode("008428");
+            Util.Print(address, phoneNumber);
+
+            var nihonfactory = new NihonFactory();
+            address = nihonfactory.CreateAddress();
+            phoneNumber = nihonfactory.CreatePhoneNumber();
+            phoneNumber.setPhoneNumber("070-2632-0255");
+            address.setCity("osaka");
+            address.setStreet("nishiyodogawaku, utajima, 2-12-1");
+            address.setPostalCode("555-0021");
+            Util.Print(address, phoneNumber);
+
         }
     }
 }
