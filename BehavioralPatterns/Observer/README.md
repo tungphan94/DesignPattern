@@ -22,7 +22,7 @@ class ConcreteSubscriber {
           }
 
 note for Publisher "foreach(s in subscribers)\n s.update(this)"
-note for Publisher "mainState = newState\notifySubscribers()"
+note for Publisher "mainState = newState\nnotifySubscribers()"
 
 Subscriber  <|-- Publisher
 Subscriber  <|-- ConcreteSubscriber
