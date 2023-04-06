@@ -13,12 +13,12 @@ namespace Factory
         public void setPhoneNumber(string phoneNumber) { this.phoneNumber = phoneNumber; } 
     }
 
-    public class VietNamesePhoneNumber : PhoneNumber
+    public class VietNamPhoneNumber : PhoneNumber
     {
         public override string getCountryCode() => "+84";
     }
 
-    public class NihonPhoneNumber : PhoneNumber
+    public class JapanPhoneNumber : PhoneNumber
     {
         public override string getCountryCode() => "+81";
     }
@@ -36,14 +36,14 @@ namespace Factory
         public abstract string getCountry();
     }
 
-    public class VietNameAdress : Address
+    public class VietNamAddress : Address
     {
         public override string getCountry() => "Viet Nam";
 
         public override string getFullAddress() => $"{postalCode}\n{street} ,{city} city";
     }
 
-    public class NihonAdress : Address
+    public class JapanAddress : Address
     {
         public override string getCountry() => "日本";
         public override string getFullAddress() => $"{postalCode}\n{city} city ,{street}";
@@ -55,27 +55,27 @@ namespace Factory
         public abstract PhoneNumber CreatePhoneNumber();
     }
 
-    public class VietNameseFactory : Factory
+    public class VietNamFactory : Factory
     {
         public override Address CreateAddress()
         {
-            return new VietNameAdress();
+            return new VietNamAddress();
         }
         public override PhoneNumber CreatePhoneNumber()
         {
-            return new VietNamesePhoneNumber();
+            return new VietNamPhoneNumber();
         }
     }
 
-    public class NihonFactory : Factory
+    public class JapanFactory : Factory
     {
         public override Address CreateAddress()
         {
-            return new NihonAdress();
+            return new JapanAddress();
         }
         public override PhoneNumber CreatePhoneNumber()
         {
-            return new NihonPhoneNumber();
+            return new JapanPhoneNumber();
         }
     }
 
@@ -98,7 +98,7 @@ namespace Factory
     {
         static void Main(string[] args)
         {
-            var vnfactory = new VietNameseFactory();
+            var vnfactory = new VietNamFactory();
             var address = vnfactory.CreateAddress();
             var phoneNumber = vnfactory.CreatePhoneNumber();
             phoneNumber.setPhoneNumber("0918-252-0906");
@@ -107,7 +107,7 @@ namespace Factory
             address.setPostalCode("008428");
             Util.Print(address, phoneNumber);
 
-            var nihonfactory = new NihonFactory();
+            var nihonfactory = new JapanFactory();
             address = nihonfactory.CreateAddress();
             phoneNumber = nihonfactory.CreatePhoneNumber();
             phoneNumber.setPhoneNumber("070-2632-0255");
