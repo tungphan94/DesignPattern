@@ -1,56 +1,42 @@
-# Decorator パターン
-Decorator （デコレーター、 装飾器） は、 構造に関するデザインパターンの一つで、 ある振る舞いを含む特別なラッパー・オブジェクトの中にオブジェクトを配置することで、 それらのオブジェクトに新しい振る舞いを付け加えます。
-
-## Decoratorパターンのクラス図
+# Observer パターン
+観察される側(=Subject)と観察する側(=Observer)の2つの役割が存在し、Subjectの状態が変化した際にObserverに通知されるデザインパターンです。そのため、状態変化に応じた処理を記述する時に有効です。
+## Observerパターンのクラス図
 ```mermaid
 classDiagram
-Component  <|-- ConcreteComponent
-Component  <|-- Decorator
-Decorator  <|-- ConcreteDecoratorA
-Decorator  <|-- ConcreteDecoratorB
-Component : method1()
-Component : method2()
-ConcreteComponent : method1()
-ConcreteComponent : method2()
-Decorator : Component
-ConcreteDecoratorA : method1()
-ConcreteDecoratorA : method2()
-ConcreteDecoratorB : method1()
-ConcreteDecoratorB : method2()
+class Publisher {
+          -subscribers[]
+          +subscribe(Subscriber s)
+          +unsubscribe(Subscriber s)
+          +notifySubscribers()
+          +mainBusinessLogic()
+          }
+class Subscriber {
+          <<interface>> Subscriber
+          +Update(context)
+          }
+          
+class ConcreteSubscriber {
+          ...
+          +Update(context)
+          }
+
+
+Subscriber  <|-- Publisher
+Subscriber  <|-- ConcreteSubscriber
+
 ```
 ### Decorator の　役割り
-1. Component(部品)
-機能追加の核となるクラスです。機能拡張するメソッドのインタフェースを定義します。
-2. ConcreteComponent(具体的な部品)
-「Component」のインタフェースを実装します。基本となる機能を実装します。
-3. Decorator(装飾者)
-「Component」を実装しているオブジェクトを保持します。「Component」のインタフェースを受流し、サブクラスに実装させます。
-※ 保持対象となるのは、「ConcreteComponent」「ConcreteDecoratorA・B」になります。
-4. ConcreteDecoratorA・B(具体的な装飾者)
-「Decorator」のインタフェースを実装します。
-5. Client(依頼者)
-「Decorator」パターンを適用したクラスを利用し処理します。
+1. パブリッシャー （Publisher）
+他のオブジェクトが関心を持つイベントを発行します。 パブリッシャーがその状態を変えた時や何らかの行為を行なった時に、 このようなイベントが発生します。 パブリッシャーには、 サブスクリプションの仕組みがあり、 新規サブスクライバーの参加や現サブスクラーバーの参加を取り消すことができます。
+2. 新しいイベントが発生すると、 パブリッシャーはサブスクリプション・リストにアクセスし、 各サブスクライバー・オブジェクトのサブスクライバー・インターフェースで宣言された通知メソッドを呼び出します。
+3. サブスクライバー （Subscriber） インターフェース
+通知用インターフェースを宣言します。 ほとんどの場合、 update メソッド一つだけがあります。 このメソッドには、 更新時にパブリッシャーがイベントの詳細情報を渡せるようにいくつかパラメータを持たせることもできます。
+4. 具象サブスクライバー （Concrete Subscribers） 
+パブリッシャーが発行した通知に応じて何らかのことを行います。 これらのクラスは、 パブリッシャーが具体的なクラスに結合されずにすむように、 すべて同じインターフェースを実装しなければなりません。
+5. 通常、 サブスクライバーは、 更新を正しく処理するために周辺情報を必要とします。 このため、 パブリッシャーは、 通知メソッドの引数として周辺データを渡すことがよくあります。 パブリッシャーは引数として自分自身を渡すことができ、 サブスクライバーは必要なデータを直接取得することができます。
+6. Client （クライアント） 
+パブリッシャーとサブスクライバーのオブジェクトを別々に作成し、 パブリッシャーの更新に対してサブスクライバーを登録します。
 
-## Decorator パターンの仕組み
-Decorator パターンの説明のため、例のテーマは「Display」にします。
 
-```mermaid
-classDiagram
-interface_Display  <|-- StringDisplay
-interface_Display  <|-- StringDecorator
-interface_Display : + GetText()　string
-StringDisplay : + GetText()　string
-StringDecorator: + GetText()　string
-StringDecorator: mDisplay -- display
-StringDecorator: + StringDecorator(Display display)　
-StringDecorator <|-- RepeatStringDisplay
-StringDecorator <|-- BorderStringDisplay
-RepeatStringDisplay: +GetText()　string
-BorderStringDisplay: +GetText()　string
-```
 
-1. Display インターフェイスは、Decorator デザイン パターンのコンポーネントです。
-2. StringDisplay  は Display の実装です (ConcreteComponent )。これらは、基本となる機能を実装します。
-3. StringDecorator は、上記の設計図の中心です。StringDisplayの既存のインスタンスを保持します。このプロパティは ctor メソッドによって設定され、プログラムの実行中に展開されます。
-4. RepeatStringDisplay と BorderStringDisplay は拡張メソッドを実装します。
 
