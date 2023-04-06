@@ -5,6 +5,7 @@
 classDiagram
 class Publisher {
           -subscribers[]
+          -mainState
           +subscribe(Subscriber s)
           +unsubscribe(Subscriber s)
           +notifySubscribers()
@@ -19,9 +20,13 @@ class ConcreteSubscriber {
           ...
           +Update(context)
           }
+
+note for Publisher "foreach(s in subscribers)\n s.update(this)"
+note for Publisher "mainState = newState\notifySubscribers()"
+
 Subscriber  <|-- Publisher
 Subscriber  <|-- ConcreteSubscriber
-Client --> ConcreteSubscriber
+Client --> Publisher
 ```
 
 
