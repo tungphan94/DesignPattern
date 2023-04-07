@@ -26,7 +26,7 @@ note for Publisher "mainState = newState\nnotifySubscribers()"
 
 Subscriber  <|-- Publisher
 Subscriber  <|-- ConcreteSubscriber
-Client --> Publisher
+Publisher <|.. client
 ```
 
 
