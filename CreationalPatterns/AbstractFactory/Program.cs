@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Factory
 {
+    /// <summary>AbstractProductA クラス/// </summary>
     public abstract class PhoneNumber
     {
         private string phoneNumber;
@@ -12,17 +13,17 @@ namespace Factory
         public string getPhoneNumber() => phoneNumber;
         public void setPhoneNumber(string phoneNumber) { this.phoneNumber = phoneNumber; } 
     }
-
+    /// <summary>ConcreteProductA1 クラス/// </summary>
     public class VietNamPhoneNumber : PhoneNumber
     {
         public override string getCountryCode() => "+84";
     }
-
+    /// <summary>ConcreteProductA2 クラス/// </summary>
     public class JapanPhoneNumber : PhoneNumber
     {
         public override string getCountryCode() => "+81";
     }
-
+    /// <summary>AbstractProductB クラス/// </summary>
     public abstract class Address
     {
         protected string city;
@@ -35,26 +36,28 @@ namespace Factory
         public abstract string getFullAddress();
         public abstract string getCountry();
     }
-
+    /// <summary>ConcreteProductB1 クラス/// </summary>
     public class VietNamAddress : Address
     {
         public override string getCountry() => "Viet Nam";
 
         public override string getFullAddress() => $"{postalCode}\n{street} ,{city} city";
     }
-
+    /// <summary>ConcreteProductB2 クラス/// </summary>
     public class JapanAddress : Address
     {
         public override string getCountry() => "日本";
         public override string getFullAddress() => $"{postalCode}\n{city} city ,{street}";
     }
 
+    /// <summary> AbstracFactoryクラス/// </summary>
     public abstract class Factory
     {
         public abstract Address CreateAddress();
         public abstract PhoneNumber CreatePhoneNumber();
     }
 
+    /// <summary>ConcreteFactory1 クラス/// </summary>
     public class VietNamFactory : Factory
     {
         public override Address CreateAddress()
@@ -66,7 +69,7 @@ namespace Factory
             return new VietNamPhoneNumber();
         }
     }
-
+    /// <summary>ConcreteFactory2 クラス/// </summary>
     public class JapanFactory : Factory
     {
         public override Address CreateAddress()
