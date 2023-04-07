@@ -30,15 +30,15 @@ Client: someOperation()
 
 AbstracFactory  <|-- ConcreteFactory1
 AbstracFactory  <|-- ConcreteFactory2
-ConcreteProductA1  <|-- ConcreteFactory1
-ConcreteProductB1  <|-- ConcreteFactory1
-ConcreteProductA2  <|-- ConcreteFactory2
-ConcreteProductB2  <|-- ConcreteFactory2
+ConcreteProductA1  <|.. ConcreteFactory1
+ConcreteProductB1  <|.. ConcreteFactory1
+ConcreteProductA2  <|.. ConcreteFactory2
+ConcreteProductB2  <|.. ConcreteFactory2
 AbstractProductA <|-- ConcreteProductA1
 AbstractProductA <|-- ConcreteProductA2
 AbstractProductB <|-- ConcreteProductB1
 AbstractProductB <|-- ConcreteProductB2
-AbstracFactory <|-- Client
+AbstracFactory <|.. Client
 ```
 
 ## 役割
