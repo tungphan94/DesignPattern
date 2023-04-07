@@ -27,7 +27,7 @@ namespace Observer
                 employees.Remove(o);
             }
             //オブザーバーへ通知する。
-            public void notifyObservers(Subject subject)
+            public void notifyObservers()
             {
                 foreach (var o in employees){
                     o.update(this);
@@ -60,7 +60,7 @@ namespace Observer
             {
                 this.title = title;
                 this.messeage = messeage;
-                notifyObservers(this);
+                notifyObservers();
             }
             public override string getTitle() => title;
             public override string getMesseage() => messeage;
