@@ -6,17 +6,37 @@ namespace Observer
 {
     class Program
     {
+        /// <summary>Observer クラス</summary>
         public abstract class Observer
         {
-            public abstract void update(string title, string messeage);
+            public abstract void update(Subject subject);
         }
+        /// <summary>Subject クラス</summary>
         public abstract class Subject
         {
-            public abstract void register(Observer o);
-            public abstract void unregister(Observer o);
-            public abstract void notifyObservers(string title, string messeage);
+            ////オブザーバーのリストを含む
+            private List<Observer> employees = new List<Observer>();
+            ////オブザーバーを追加する
+            public void register(Observer o)
+            {
+                employees.Add(o);
+            }
+            ////オブザーバーを削除する
+            public void unregister(Observer o)
+            {
+                employees.Remove(o);
+            }
+            //オブザーバーへ通知する。
+            public void notifyObservers(Subject subject)
+            {
+                foreach (var o in employees){
+                    o.update(this);
+                }
+            }
+            public abstract string getTitle();
+            public abstract string getMesseage();
         }
-
+        /// <summary>ConcreteObserver クラス</summary>
         public class Employee : Observer
         {
             public string name { get; }
@@ -24,35 +44,26 @@ namespace Observer
             public Employee(string name) { 
                 this.name = name;
             }
-            public override void update(string title, string messeage)
+            public override void update(Subject subject)
             {
-                Console.WriteLine($"{title}\n{name} 様\n {messeage}");
+                Console.WriteLine($"{subject.getTitle()}\n{name} 様\n {subject.getMesseage()}");
                 Console.WriteLine($"Web給与明細URL：\n {salaryURL}\n");
             }
             public void setSalaryWebURL(string webURL) { this.salaryURL = webURL; }
         }
-
+        /// ConcreteSubjectクラス</summary>
         public class Manage : Subject
         {
-            private List<Observer> employees = new List<Observer>();
-            public override void register(Observer o)
-            {
-                employees.Add(o);
-            }
-            public override void unregister(Observer o)
-            {
-                employees.Remove(o);
-            }
-            public override void notifyObservers(string title, string messeage)
-            {
-                foreach(var o in employees){
-                    o.update(title, messeage);
-                }
-            }
+            private string title;
+            private string messeage;
             public void sendSalaryMesseage(string title, string messeage)
             {
-                notifyObservers(title, messeage);
+                this.title = title;
+                this.messeage = messeage;
+                notifyObservers(this);
             }
+            public override string getTitle() => title;
+            public override string getMesseage() => messeage;
         }
 
         static void Main(string[] args)
@@ -72,7 +83,6 @@ namespace Observer
             manage.sendSalaryMesseage(
                 "3月給与明細のお知らせ",
                 "3月の給与明細を配信しましたので、ご連絡いたします。");
-
         }
     }
 }
