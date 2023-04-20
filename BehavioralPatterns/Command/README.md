@@ -24,8 +24,8 @@ class Receiver {
 class Client {
           }          
 Command  <|-- ConcreteCommand
-ConcreteCommand <|--Receiver
-Command  <|.. Invoke
+ConcreteCommand *--Receiver
+Invoke *-- Command
  Client    <|.. ConcreteCommand
 ```
 ### Factory の役割り
