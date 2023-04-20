@@ -50,10 +50,10 @@ class DocumentInvoker{
     -Command[] undoCommands
     -Command[] redoCommands
     -Document document
-    +void undo()
-    +void redo()
-    +void write(string text)
-    +string getText()
+    +undo()
+    +redo()
+    +write(string text)
+    +getText() string
           }
 class Command {
           <<interface>>
@@ -63,15 +63,15 @@ class Command {
 class EditCommand {
           -Doccument document
           -string text
-          +void undo()
-          +void redo()
+          +undo()
+          +redo()
           }
 class Document {
         -string[] listStrs
-        -void write(string text)
-        -void add(string text)
-        -void remove()
-        -string getText()
+        +write(string text)
+        +add(string text)
+        +remove()
+        +getText() string
           }
 class Client {
           }          
