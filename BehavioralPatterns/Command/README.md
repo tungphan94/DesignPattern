@@ -39,3 +39,43 @@ Invoke *-- Command
 依頼者の役。具体的命令を生成し、命令の受け取り手を割り当てる
 1. Invoker	
 起動者の役。Commandで定義されているインターフェースを呼び出し、命令の実行を開始する
+
+# サンプルコードの解説
+```mermaid
+classDiagram
+
+class DocumentInvoker{
+    -Command[] undoCommands
+    -Command[] redoCommands
+    -Document document
+    +void undo()
+    +void redo()
+    +void write(string text)
+    +string getText()
+          }
+class Command {
+          <<interface>>
+          +undo()
+          +redo()        
+          }
+class EditCommand {
+          -Doccument document
+          -string text
+          +void undo()
+          +void redo()
+          }
+class Document {
+        -string[] listStrs
+        -void write(string text)
+        -void add(string text)
+        -void remove()
+        -string getText()
+          }
+class Client {
+          }          
+Command  <|-- EditCommand
+EditCommand *--Document
+DocumentInvoker *-- Command
+ Client    <|.. EditCommand
+```
+
