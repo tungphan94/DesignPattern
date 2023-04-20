@@ -1,7 +1,7 @@
-# Factory パターン
+# コマンド パターン
 Command （コマンド、 命令） は、 振る舞いに関するデザインパターンの一つで、 リクエストを、 それに関するすべての情報を含む独立したオブジェクトに転換します。
 
-## Factoryパターンのクラス図
+## コマンドパターンのクラス図
 ```mermaid
 classDiagram
 
@@ -28,7 +28,7 @@ ConcreteCommand *--Receiver
 Invoke *-- Command
  Client    <|.. ConcreteCommand
 ```
-### Factory の役割り
+### コマンド の役割り
 1. Command（命令） 
 命令のインターフェース（API）を定義する役です。
 1. 具象コマンド （ConcreteCommand）
