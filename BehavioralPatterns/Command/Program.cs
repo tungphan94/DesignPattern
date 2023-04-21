@@ -8,99 +8,65 @@ namespace Commmand
     /// <summary>コマンド インターフェース　</summary>
     public abstract class Command
     {
-        public abstract void undo();
-        public abstract void redo();
-
+        protected ComputerReceiver receiver;
+        public Command(ComputerReceiver receiver)
+        {
+            this.receiver = receiver;
+        }
+        public abstract void execute();
     }
 
     /// <summary>具象コマンド(Concrete Command) </summary>
-    public class EditCommand : Command
+    public class ShutDownCmd : Command
     {
-        private string text;
-        private Document document;
-        public EditCommand(Document document, string text)
+        public ShutDownCmd(ComputerReceiver receiver) : base(receiver) { }
+        public override void execute()
         {
-            this.document = document;
-            this.text = text;
+            receiver.shutDown();
         }
-        public override void redo()
+    }
+
+    /// <summary>具象コマンド(Concrete Command) </summary>
+    public class OpenCmd : Command
+    {
+        public OpenCmd(ComputerReceiver receiver) : base(receiver) { }
+
+        public override void execute()
         {
-            document.add(text);
+            receiver.open();
         }
-        public override void undo()
+    }
+
+    /// <summary>具象コマンド(Concrete Command) </summary>
+    public class SleepCmd : Command
+    {
+        public SleepCmd(ComputerReceiver receiver) : base(receiver) { }
+        public override void execute()
         {
-            document.remove();
+            receiver.sleep();
         }
     }
 
     /// <summary>受け手 （Receiver） クラス</summary>
-    public class Document
+    public class ComputerReceiver
     {
-        List<string> listStrs = new List<string>();
-        public void add(string str)
-        {
-            listStrs.Add(str);
-        }
-
-        public void remove()
-        {
-            if (listStrs.Any()){
-                listStrs.RemoveAt(listStrs.Count - 1);
-            }
-        }
-
-        public string getText()
-        {
-            if (listStrs.Any()){
-                return listStrs.Aggregate((acc, next) => acc + " - " + next);
-            } else{
-                return "";
-            }
-        }
+        public void shutDown() { Console.WriteLine("computer is shutdown"); }
+        public void open() { Console.WriteLine("computer is Open"); }
+        public void sleep() { Console.WriteLine("computer is sleep"); }
     }
 
     /// <summary>インボーカー （Invoker）</summary>
-    public class DocumentInvoker
+    public class Invoker
     {
-        private List<Command> undoCommands = new List<Command>();
-        private List<Command> redoCommands = new List<Command>();
-        private Document document = new Document();
-
-        public void write(string txt){
-            document.add(txt);
-            var cmd = new EditCommand(document, txt);
-            undoCommands.Add(cmd);
-            redoCommands.Clear();
+        private Command command;
+        public void setCommand(Command command)
+        {
+            this.command = command;
         }
 
-        public void undo()
+        public void execute()
         {
-            if (undoCommands.Any()){
-                var cmd = undoCommands.Last();
-                undoCommands.RemoveAt(undoCommands.Count - 1);
-                cmd.undo();
-                redoCommands.Add(cmd);
-            }
-            else {
-                Console.WriteLine("nothing");
-            }
-        }
-
-        public void redo()
-        {
-            if (redoCommands.Any()){
-                var cmd = redoCommands.Last();
-                redoCommands.RemoveAt(redoCommands.Count - 1);
-                cmd.redo();
-                undoCommands.Add(cmd);
-            }
-            else {
-                Console.WriteLine("nothing");
-            }
-        }
-        public string getText()
-        {
-            return document.getText();
+            command.execute();
         }
     }
     /// <summary>クライアント （Client） </summary>
@@ -108,23 +74,20 @@ namespace Commmand
     {
         static void Main(string[] args)
         {
-            var instance = new DocumentInvoker();
-            instance.write("text1");
-            Console.WriteLine(instance.getText());
-            instance.undo();
-            Console.WriteLine("undo:" +  instance.getText());
-            instance.redo();
-            Console.WriteLine("redo:" +  instance.getText());
-            instance.write("text2");
-            instance.write("text3");
-            Console.WriteLine(instance.getText());
-            instance.undo();
-            Console.WriteLine("undo 1:" + instance.getText());
-            instance.undo();
-            Console.WriteLine("undo 2:" + instance.getText());
-            instance.undo();
-            Console.WriteLine("undo 3:" + instance.getText());
-            instance.undo();
+            var receiver = new ComputerReceiver();
+            var cmdA = new ShutDownCmd(receiver);
+            var cmdB = new OpenCmd(receiver);
+            var cmdC = new SleepCmd(receiver);
+            var invoker = new Invoker();
+            invoker.setCommand(cmdA);
+            invoker.execute();
+
+            invoker.setCommand(cmdB);
+            invoker.execute();
+
+            invoker.setCommand(cmdC);
+            invoker.execute();
+
         }
     }
 }
