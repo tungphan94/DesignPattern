@@ -46,38 +46,42 @@ Invoke *-- Command
 ```mermaid
 classDiagram
 
-class DocumentInvoker{
-    -Command[] undoCommands
-    -Command[] redoCommands
-    -Document document
-    +undo()
-    +redo()
-    +write(string text)
-    +getText() string
+class Invoker{
+    -Command
+    +setCommand(Command cmd)
+    +Execute()
           }
 class Command {
           <<interface>>
-          +undo()
-          +redo()        
+         +Execute()     
           }
-class EditCommand {
-          -Doccument document
-          -string text
-          +undo()
-          +redo()
+class ShutdownCmd {
+        +ShutdownCmd(ComputerReceiver receiver)
+        +Execute()  
           }
-class Document {
-        -string[] listStrs
-        +write(string text)
-        +add(string text)
-        +remove()
-        +getText() string
+class SleepCmd {
+        +SleepCmd(ComputerReceiver receiver)
+        +Execute()  
+          }
+class OpenCmd {
+        +OpenCmd(ComputerReceiver receiver)
+        +Execute()  
+          }          
+class ComputerReceiver {
+        +ShutDown()
+        +Open()
+        +Sleep()
           }
 class Client {
           }          
-Command  <|-- EditCommand
-EditCommand *--Document
-DocumentInvoker *-- Command
- Client    <|.. EditCommand
+Command  <|-- ShutdownCmd
+Command  <|-- OpenCmd
+Command  <|-- SleepCmd
+Invoker *-- Command
+Client  <|.. Command
+Client    <|.. ComputerReceiver
+ComputerReceiver    <|.. ShutdownCmd
+ComputerReceiver    <|.. OpenCmd
+ComputerReceiver    <|.. SleepCmd
 ```
 
