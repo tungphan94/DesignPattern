@@ -37,12 +37,13 @@ class Client {
           }          
 Visitor  <|-- ConcreteVisitor1
 Visitor  <|-- ConcreteVisitor2
-Element  <|.. ConcreteElement1
-Element  <|.. ConcreteElement2
+Element  <|-- ConcreteElement1
+Element  <|-- ConcreteElement2
+Client o-- Element
 ```
 ### Visitor の役割り
 1. Visitor (訪問者):
-具体的なデータ構造の要素 (ConcreteElement[A|B]) 毎に訪問して行う処理 (visit メソッド) のインタフェースを定義する. visit メソッドは, オーバーロードすることで, その訪問先要素の型に応じた処理を指定する.
+具体的なデータ構造の要素 (ConcreteElement[1|2]) 毎に訪問して行う処理 (visit メソッド) のインタフェースを定義する. visit メソッドは, オーバーロードすることで, その訪問先要素の型に応じた処理を指定する.
 2. ConcreteVisitor[1|2] (具体的訪問者):
 [Visitor] で定義したインタフェース (各 visit メソッド) を実装する.
 3. Element (データ構造 (受入者)):
@@ -51,7 +52,3 @@ Element  <|.. ConcreteElement2
 [Element] で定義したインタフェース (accept メソッド) を実装する.
 5. Client (利用者):
 [Visitor] パターンを適用したクラスを用い処理を行う.
-
-# サンプルコードの解説
-コマンド パターンの説明のため、文字列表示の機能を実装します。
-
