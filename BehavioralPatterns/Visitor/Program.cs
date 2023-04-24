@@ -54,13 +54,13 @@ namespace visitorExp
     {
         public override void visit(CircleShape A)
         {
-            double getPerimeter(double radius) => 2 * radius * Math.PI;
-            Console.WriteLine($"円の周囲は: {getPerimeter(A.radius)}");
+            var perimeter = 2 * A.radius * Math.PI;
+            Console.WriteLine($"円の周囲は: {perimeter}");
         }
         public override void visit(RectangleShape B)
         {
-            double getPerimeter(double w, double h) => 2 * (w + h);
-            Console.WriteLine($"長方形の周囲は: {getPerimeter(B.w, B.h)}");
+            var perimeter = 2 * (B.w + B.h);
+            Console.WriteLine($"長方形の周囲は: {perimeter}");
         }
     }
 
@@ -70,14 +70,14 @@ namespace visitorExp
     {
         public override void visit(CircleShape A)
         {
-            double getArea(double radius) => Math.PI * radius * radius;
-            Console.WriteLine($"円の面積は: {getArea(A.radius)}");
+            var area = Math.PI * A.radius * A.radius;
+            Console.WriteLine($"円の面積は: {area}");
 
         }
         public override void visit(RectangleShape B)
         {
-            double getArea(double w, double h) => w * h;
-            Console.WriteLine($"長方形の面積は: {getArea(B.w, B.h)}");
+            var area = B.w * B.h;
+            Console.WriteLine($"長方形の面積は: {area}");
         }
     }
 
