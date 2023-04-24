@@ -13,7 +13,7 @@ namespace visitorExp
     /// <summary>concreteElementA クラス</summary>
     public class CircleShape : Shape
     {
-        private double radius;
+        public double radius { get; }
         public CircleShape(double radius)
         {
             this.radius = radius;
@@ -22,17 +22,13 @@ namespace visitorExp
         {
             visitor.visit(this);
         }
-
-        public double getPerimeter() => 2 * radius * Math.PI;
-        public double getArea() => Math.PI * radius * radius;
-   
     }
 
     /// <summary>concreteElementB クラス</summary>
     public class RectangleShape : Shape
     {
-        private double w;
-        private double h;
+        public double w { get; }
+        public double h { get; }
         public RectangleShape(double w, double h)
         {
             this.w = w;
@@ -43,8 +39,6 @@ namespace visitorExp
             visitor.visit(this);
         }
 
-        public double getPerimeter() => 2 * (w + h);
-        public double getArea() => w * h;
     }
 
     /// <summary>Visitor クラス</summary>
@@ -60,11 +54,13 @@ namespace visitorExp
     {
         public override void visit(CircleShape A)
         {
-            Console.WriteLine($"円の周囲は: {A.getPerimeter()}");
+            double getPerimeter(double radius) => 2 * radius * Math.PI;
+            Console.WriteLine($"円の周囲は: {getPerimeter(A.radius)}");
         }
         public override void visit(RectangleShape B)
         {
-            Console.WriteLine($"長方形の周囲は: {B.getPerimeter()}");
+            double getPerimeter(double w, double h) => 2 * (w + h);
+            Console.WriteLine($"長方形の周囲は: {getPerimeter(B.w, B.h)}");
         }
     }
 
@@ -74,12 +70,14 @@ namespace visitorExp
     {
         public override void visit(CircleShape A)
         {
-            Console.WriteLine($"円の面積は: {A.getArea()}");
+            double getArea(double radius) => Math.PI * radius * radius;
+            Console.WriteLine($"円の面積は: {getArea(A.radius)}");
 
         }
         public override void visit(RectangleShape B)
         {
-            Console.WriteLine($"長方形の面積は: {B.getArea()}");
+            double getArea(double w, double h) => w * h;
+            Console.WriteLine($"長方形の面積は: {getArea(B.w, B.h)}");
         }
     }
 
