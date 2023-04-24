@@ -37,8 +37,8 @@ class Client {
           }          
 Visitor  <|-- ConcreteVisitor1
 Visitor  <|-- ConcreteVisitor2
-Element  <|.. ConcreteElement1
-Element  <|.. ConcreteElement2
+Element  <|-- ConcreteElement1
+Element  <|-- ConcreteElement2
 Client o-- Element
 ```
 ### Visitor の役割り
