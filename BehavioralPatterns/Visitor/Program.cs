@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace visitorExp
+namespace Visitor
 {
     /// <summary>Element クラス </summary>
     public abstract class Shape
@@ -86,15 +86,16 @@ namespace visitorExp
     {
         static void Main(string[] args)
         {
-            var perimeterVisitor = new PerimeterVisitor();
-            var circle = new CircleShape(10);
-            var rect = new RectangleShape(10,20);
-            circle.accept(perimeterVisitor);
-            rect.accept(perimeterVisitor);
+            //var perimeterVisitor = new PerimeterVisitor();
+            //var circle = new CircleShape(10);
+            //var rect = new RectangleShape(10,20);
+            //circle.accept(perimeterVisitor);
+            //rect.accept(perimeterVisitor);
 
-            var areaVisitor = new AreaVisitor();
-            circle.accept(areaVisitor);
-            rect.accept(areaVisitor);
+            //var areaVisitor = new AreaVisitor();
+            //circle.accept(areaVisitor);
+            //rect.accept(areaVisitor);
+            SettingFile.cmd();
         }
     }
 }
